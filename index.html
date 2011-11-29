@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>City Guide</title>
+
+        <script src="lib/touch2/sencha-touch-all-debug.js" type="text/javascript"></script>
+        <link href="theming/citybars.css" rel="stylesheet" type="text/css" />
+
+        <!--
+            You must replace this YELP_KEY below with your own, available by registering with Yelp:
+            http://www.yelp.com/developers/getting_started/api_overview
+            (in this app, we use the Review Search API v1.0)
+        -->
+
+        <script type="text/javascript">
+            YELP_KEY = 'G3HueY_I5a8WZX-_bFo3Mw';
+            DEFAULT_CITY = 'New York';
+            BUSINESS_TYPE = 'Bars';
+        </script>
+        <script type="text/javascript" src="app/app.js"></script>
+
+
+        <style>
+            .photo {
+                float:left;
+                margin:0 8px 16px 0;
+                border:1px solid #ccc;
+                -webkit-box-shadow: 0 2px 4px #777;
+            }
+            .x-html h2 {
+                margin-bottom:0;
+            }
+            .phone, .link {
+                clear:both;
+                font-weight:bold;
+                display:block;
+                text-align:center;
+                margin-top:8px;
+            }
+            .detail {
+                -webkit-box-orient: vertical;
+            }
+            .detail .photo {
+                float:none;
+            }
+        </style>
+
+    </head>
+    <body></body>
+</html>
