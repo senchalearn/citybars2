@@ -81,7 +81,7 @@ Ext.application({
                     ]
                 }],
                 setData: function(data) {
-                    this.updateStyleHtmlContent(true);
+                    this.getStyleHtmlContent(true);
                     // updating card cascades to update each tab
                     Ext.each(this.items.items, function(item) {
                         item.setData(data);
