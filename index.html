@@ -4,8 +4,20 @@
 
         <title>City Guide</title>
 
-        <script src="http://cdn.sencha.io/touch/sencha-touch-2.0.0-pr2/sencha-touch-all-debug.js"></script>
+        <script src="http://cdn.sencha.io/touch/sencha-touch-2.0.0-pr2/sencha-touch-all.js"></script>
         <link href="http://cdn.sencha.io/touch/sencha-touch-2.0.0-pr2/resources/css/sencha-touch.css" rel="stylesheet" />
+
+        <!--
+            You must replace this YELP_KEY below with your own, available by registering with Yelp:
+            http://www.yelp.com/developers/getting_started/api_overview
+            (in this app, we use the Review Search API v1.0)
+            You can also change the city and business types for the app here.
+        -->
+        <script>
+            YELP_KEY = 'G3HueY_I5a8WZX-_bFo3Mw';
+            DEFAULT_CITY = 'San Francisco';
+            BUSINESS_TYPE = 'Bars';
+        </script>
 
         <script src="app/app.js"></script>
 
