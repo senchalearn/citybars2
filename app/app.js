@@ -21,8 +21,12 @@ Ext.application({
                     // gets bound to the store once city known
                     id: 'dataList',
                     xtype: 'list',
-                    store: null
-                }]
+                    store: null,
+                    itemTpl:
+                        '<img class="photo" src="http://src.sencha.io/40/{photo_url}" width="40" height="40"/>' +
+                        '{name}<br/>' +
+                        '<img src="{rating_img_url_small}"/>&nbsp;' +
+                        '<small>{address1}</small>'                }]
             }, {
                 // the details card
                 id: 'detailCard',
@@ -34,7 +38,28 @@ Ext.application({
                 }, {
                     // textual detail
                 }]
-            }]
+            }],
+
+            listeners: {
+                'painted': function (cards) {
+
+                    // get the city, then...
+                    CB.getCity(function (city) {
+
+                        cards.query('#listCard toolbar')[0].setTitle(city + ' ' + BUSINESS_TYPE);
+
+                        // then use Yelp to get the businesses
+                        CB.getBusinesses(city, function (store) {
+
+                            // then bind data to list and show it
+                            cards.query('#dataList')[0].setStore(store);
+
+                        });
+                    });
+
+                }
+            }
+
         });
     },
 
