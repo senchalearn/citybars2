@@ -79,7 +79,7 @@ Ext.application({
             ]
         });
 
-        Ext.create('Ext.data.Store', {
+        var store = Ext.create('Ext.data.Store', {
             model: 'Business',
             autoLoad: true,
             proxy: {
@@ -104,7 +104,7 @@ Ext.application({
         });
 
         Ext.create('Ext.LoadMask', Ext.getBody(), {
-            store: 'businesses',
+            store: store,
             msg: ''
         });
 
