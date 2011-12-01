@@ -26,7 +26,18 @@ Ext.application({
                         '<img class="photo" src="http://src.sencha.io/40/{photo_url}" width="40" height="40"/>' +
                         '{name}<br/>' +
                         '<img src="{rating_img_url_small}"/>&nbsp;' +
-                        '<small>{address1}</small>'
+                        '<small>{address1}</small>',
+                    listeners: {
+                        selectionchange: function (selectionModel, records) {
+                            // if selection made, slide to detail card
+                            if (records[0]) {
+                                CB.cards.setActiveItem(1);
+                                CB.cards.getActiveItem().setData(
+                                    records[0].data
+                                );
+                            }
+                        }
+                    }
                 }]
             }, {
                 // the details card
@@ -35,27 +46,36 @@ Ext.application({
                     // detail page also has a toolbar
                     docked : 'top',
                     xtype: 'toolbar',
-                    title: ''
+                    title: '',
+                    items: [{
+                        // containing a back button
+                        // that slides back to list card
+                        text: 'Back',
+                        ui: 'back',
+                        listeners: {
+                            tap: function () {
+                                CB.cards.setActiveItem(0,
+                                    {type:'slide', direction: 'right'}
+                                );
+                            }
+                        }
+                    }]
                 }, {
                     // textual detail
                 }]
-            }],
-
-            listeners: {
-                'painted': function (cards) {
-                    // get the city
-                    CB.getCity(function (city) {
-                        cards.query('#listCard toolbar')[0].setTitle(city + ' ' + BUSINESS_TYPE);
-                        // then use Yelp to get the businesses
-                        CB.getBusinesses(city, function (store) {
-                            // then bind data to list and show it
-                            cards.query('#dataList')[0].setStore(store);
-                        });
-                    });
-                }
-            }
-
+            }]
         });
+
+        // get the city
+        CB.getCity(function (city) {
+            CB.cards.query('#listCard toolbar')[0].setTitle(city + ' ' + BUSINESS_TYPE);
+            // then use Yelp to get the businesses
+            CB.getBusinesses(city, function (store) {
+                // then bind data to list and show it
+                CB.cards.query('#dataList')[0].setStore(store);
+            });
+        });
+
     },
 
     getCity: function (callback) {
