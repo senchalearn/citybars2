@@ -39,23 +39,19 @@ Ext.application({
                 }, {
                     // textual detail
                 }]
-            }],
-
-            listeners: {
-                'painted': function (cards) {
-                    // get the city
-                    CB.getCity(function (city) {
-                        cards.query('#listCard toolbar')[0].setTitle(city + ' ' + BUSINESS_TYPE);
-                        // then use Yelp to get the businesses
-                        CB.getBusinesses(city, function (store) {
-                            // then bind data to list and show it
-                            cards.query('#dataList')[0].setStore(store);
-                        });
-                    });
-                }
-            }
-
+            }]
         });
+
+        // get the city
+        CB.getCity(function (city) {
+            CB.cards.query('#listCard toolbar')[0].setTitle(city + ' ' + BUSINESS_TYPE);
+            // then use Yelp to get the businesses
+            CB.getBusinesses(city, function (store) {
+                // then bind data to list and show it
+                CB.cards.query('#dataList')[0].setStore(store);
+            });
+        });
+
     },
 
     getCity: function (callback) {
