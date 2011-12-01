@@ -113,6 +113,11 @@ Ext.application({
             }
         });
 
+        Ext.create('Ext.LoadMask', Ext.getBody(), {
+            store: 'businesses',
+            msg: ''
+        });
+
     }
 
 
