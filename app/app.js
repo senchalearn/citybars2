@@ -21,7 +21,6 @@ Ext.application({
                     // gets bound to the store once city known
                     id: 'dataList',
                     xtype: 'list',
-                    store: null,
                     itemTpl:
                         '<img class="photo" src="http://src.sencha.io/40/{photo_url}" width="40" height="40"/>' +
                         '{name}<br/>' +
