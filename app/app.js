@@ -53,9 +53,7 @@ Ext.application({
                         ui: 'back',
                         listeners: {
                             tap: function () {
-                                CB.cards.setActiveItem(0,
-                                    {type:'slide', direction: 'right'}
-                                );
+                                CB.cards.setActiveItem(0);
                             }
                         }
                     }]
@@ -103,7 +101,7 @@ Ext.application({
             ]
         });
 
-        Ext.create('Ext.data.Store', {
+        var store = Ext.create('Ext.data.Store', {
             model: 'Business',
             autoLoad: true,
             proxy: {
@@ -128,7 +126,7 @@ Ext.application({
         });
 
         Ext.create('Ext.LoadMask', Ext.getBody(), {
-            store: 'businesses',
+            store: store,
             msg: ''
         });
 
