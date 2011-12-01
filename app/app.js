@@ -103,7 +103,7 @@ Ext.application({
             ]
         });
 
-        Ext.regStore("businesses", {
+        Ext.create('Ext.data.Store', {
             model: 'Business',
             autoLoad: true,
             proxy: {
