@@ -20,8 +20,7 @@ Ext.application({
                     // the list itself
                     // gets bound to the store once city known
                     id: 'dataList',
-                    xtype: 'list',
-                    store: null
+                    xtype: 'list'
                 }]
             }, {
                 // the details card
