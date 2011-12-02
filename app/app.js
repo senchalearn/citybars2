@@ -1,12 +1,11 @@
-var cb;
+var CB;
 Ext.application({
 
     launch: function() {
-        cb = this;
-        cb.cards = Ext.create('Ext.Panel', {
-            layout    : 'card',
+        CB = this;
+        CB.cards = Ext.create('Ext.Panel', {
             fullscreen: true,
-            cardSwitchAnimation: 'slide',
+            layout: 'card',
             items: [{
                 // the list card
                 id: 'listCard',
@@ -15,14 +14,15 @@ Ext.application({
                     // main top toolbar
                     xtype: 'toolbar',
                     docked: 'top',
-                    title: 'Please waist' // will get added once loaded
+                    title: 'Please wait'
+                    // will get added once city known
                 }, {
-                    // the list itself, gets bound to the store programmatically once it's loaded
+                    // the list itself
+                    // gets bound to the store once city known
                     id: 'dataList',
                     xtype: 'list',
-                    store: null,
                     itemTpl:
-                        '<img class="photo" src="{photo_url}" width="40" height="40"/>' +
+                        '<img class="photo" src="http://src.sencha.io/40/{photo_url}" width="40" height="40"/>' +
                         '{name}<br/>' +
                         '<img src="{rating_img_url_small}"/>&nbsp;' +
                         '<small>{address1}</small>',
@@ -30,8 +30,10 @@ Ext.application({
                         selectionchange: function (selectionModel, records) {
                             // if selection made, slide to detail card
                             if (records[0]) {
-                                cb.cards.setActiveItem(cb.cards.detailCard);
-                                cb.cards.detailCard.setData(records[0].data);
+                                CB.cards.setActiveItem(1);
+                                CB.cards.getActiveItem().setData(
+                                    records[0].data
+                                );
                             }
                         }
                     }
@@ -39,31 +41,29 @@ Ext.application({
             }, {
                 // the details card
                 id: 'detailCard',
+                styleHtmlContent: true,
+                setData: function (data) {
+                    this.query('toolbar')[0].setTitle(data.name);
+                    this.query('[cls="detail"]')[0].setData(data);
+                },
                 items: [{
                     // detail page also has a toolbar
                     docked : 'top',
                     xtype: 'toolbar',
                     title: '',
-                    setData: function(data) {
-                        this.setTitle(data.name);
-                    },
                     items: [{
-                        // containing a back button that slides back to list card
+                        // containing a back button
+                        // that slides back to list card
                         text: 'Back',
                         ui: 'back',
                         listeners: {
                             tap: function () {
-                                cb.cards.setActiveItem(
-                                    cb.cards.listCard,
-                                    {type:'slide', direction: 'right'}
-                                );
+                                CB.cards.setActiveItem(0);
                             }
                         }
                     }]
                 }, {
                     // textual detail
-                    title: 'Contact',
-                    styleHtmlContent: true,
                     cls: 'detail',
                     tpl: [
                         '<img class="photo" src="{photo_url}" width="100" height="100"/>',
@@ -79,58 +79,29 @@ Ext.application({
                             '<a href="{mobile_url}">Read more</a>',
                         '</div>'
                     ]
-                }],
-                setData: function(data) {
-                    this.getStyleHtmlContent(true);
-                    // updating card cascades to update each tab
-                    Ext.each(this.items.items, function(item) {
-                        item.setData(data);
-                    });
-                }
-            }],
-
-
-            listeners: {
-                'painted': function () {
-                    // when the viewport loads, we go through a callback-centric sequence to load up:
-                    // a) the name of the nearest city
-                    // b) the local businesses from Yelp
-
-                    //some useful references
-                    var cards = this;
-                    cards.listCard = cards.getComponent('listCard');
-                    cards.dataList = cards.listCard.getComponent('dataList');
-                    cards.detailCard = cards.getComponent('detailCard');
-
-                    // get the city, then...
-                    cb.getCity(function (city) {
-
-                        // update status bar
-                        cards.listCard.query('toolbar[docked="top"]')[0].setTitle(city + ' ' + BUSINESS_TYPE);
-
-                        // then use Yelp to get the businesses
-                        cb.getBusinesses(city, function (store) {
-
-                            // then bind data to list and show it
-                            cards.dataList.setStore(store);
-                            cards.setActiveItem(cards.listCard);
-
-                        });
-                    });
-
-                }
-            }
-
+                }]
+            }]
         });
+
+        // get the city
+        CB.getCity(function (city) {
+            CB.cards.query('#listCard toolbar')[0].setTitle(city + ' ' + BUSINESS_TYPE);
+            // then use Yelp to get the businesses
+            CB.getBusinesses(city, function (store) {
+                // then bind data to list and show it
+                CB.cards.query('#dataList')[0].setStore(store);
+            });
+        });
+
     },
 
     getCity: function (callback) {
         callback(DEFAULT_CITY);
-        // this could be a geo lookup to get the nearest city
+        // this could now be a geo lookup to
+        // get the nearest city
     },
 
     getBusinesses: function (city, callback) {
-        // create data model
 
         Ext.define("Business", {
             extend: "Ext.data.Model",
@@ -150,7 +121,7 @@ Ext.application({
             ]
         });
 
-        Ext.regStore("businesses", {
+        var store = Ext.create('Ext.data.Store', {
             model: 'Business',
             autoLoad: true,
             proxy: {
@@ -168,17 +139,18 @@ Ext.application({
             },
             listeners: {
                 // when the records load, fire the callback
-                'load': function (store) {
+                load: function (store) {
                     callback(store);
                 }
             }
-        })
+        });
 
         Ext.create('Ext.LoadMask', Ext.getBody(), {
-            store: 'businesses',
+            store: store,
             msg: ''
         });
 
     }
+
 
 });

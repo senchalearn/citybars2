@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Voltaire);
+
 $base-color: #666;
 $base-gradient: 'glossy';
 $include-default-icons:false;
@@ -11,3 +13,35 @@ $include-default-icons:false;
 @include sencha-list;
 @include sencha-layout;
 @include sencha-loading-spinner;
+
+.photo {
+    float:left;
+    margin:0 8px 16px 0;
+    border:1px solid #ccc;
+    -webkit-box-shadow: 0 2px 4px #777;
+}
+
+.x-html h2 {
+    margin-bottom:0;
+}
+.phone, .link {
+    clear:both;
+    font-weight:bold;
+    display:block;
+    text-align:center;
+    margin-top:8px;
+}
+.detail {
+    -webkit-box-orient: vertical;
+}
+.detail .photo {
+    float:none;
+}
+
+.x-title {
+  font-family: Voltaire;
+  font-weight: normal;
+  font-size: 1.7em;
+  line-height: 1.7em;
+  letter-spacing: 0.05em;
+}
