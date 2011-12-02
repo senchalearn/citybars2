@@ -41,6 +41,11 @@ Ext.application({
             }, {
                 // the details card
                 id: 'detailCard',
+                styleHtmlContent: true,
+                setData: function (data) {
+                    this.query('toolbar')[0].setTitle(data.name);
+                    this.query('[cls="detail"]')[0].setData(data);
+                },
                 items: [{
                     // detail page also has a toolbar
                     docked : 'top',
@@ -59,6 +64,21 @@ Ext.application({
                     }]
                 }, {
                     // textual detail
+                    cls: 'detail',
+                    tpl: [
+                        '<img class="photo" src="{photo_url}" width="100" height="100"/>',
+                        '<h2>{name}</h2>',
+                        '<div class="info">',
+                            '{address1}<br/>',
+                            '<img src="{rating_img_url_small}"/>',
+                        '</div>',
+                        '<div class="phone x-button">',
+                            '<a href="tel:{phone}">{phone}</a>',
+                        '</div>',
+                        '<div class="link x-button">',
+                            '<a href="{mobile_url}">Read more</a>',
+                        '</div>'
+                    ]
                 }]
             }]
         });
